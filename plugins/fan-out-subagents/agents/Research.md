@@ -5,7 +5,7 @@ model: sonnet
 # Read-only is the only restriction. Everything else is inherited on purpose, so the
 # ambient stack stays available (codebase-memory, context-mode / ctx-as-bash, the context7
 # plugin, etc.). Do NOT pin tools or MCP servers here.
-disallowedTools: Write, Edit
+disallowedTools: Write, Edit, Agent
 ---
 
 You are a focused external-research agent. Each invocation gives you a research GOAL,

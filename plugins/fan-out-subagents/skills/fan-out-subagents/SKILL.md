@@ -32,6 +32,8 @@ Before writing any dispatch, classify each task and pick its type. Do this expli
 
 > Fork requires Claude Code v2.1.117+. Claude-spawned forks roll out in stages; `CLAUDE_CODE_FORK_SUBAGENT=1` is only an explicit override and is not required once the rollout is active in your session. A fork can't spawn another fork. When fork mode is active, every spawn runs in the background.
 
+> **Nesting (v2.1.172+):** subagents can now spawn their own subagents (depth limit 5, fixed and non-configurable; a subagent at depth 5 no longer receives the Agent tool). This skill keeps orchestration in the **main session** (flat fan-out): at our scale, main-as-coordinator is cheaper to reason about and avoids compounding orphan-token cost. Reach for nesting only when a single surface genuinely needs to fan out further on its own. A fork still can't spawn another fork.
+
 > **Worker naming:** `fork` and `Explore` are native types (no setup). The `Research` and `Debug-Explore` workers ship with this plugin and, when installed as a plugin, register under scoped names — `fan-out-subagents:Research` and `fan-out-subagents:Debug-Explore`. Use those as the `subagent_type`, or copy the agents to user/project scope (`~/.claude/agents/Research.md`, `~/.claude/agents/Debug-Explore.md`) to use the bare names. Examples below write `Research` / `Debug-Explore` for readability.
 
 ## When to Use
@@ -107,6 +109,8 @@ Agent (subagent_type: fork):     "Implement the retry wrapper in src/http/client
 ```
 
 **Parallel file edits:** if multiple forks will write to the same checkout, pass `isolation: "worktree"` so each fork edits an isolated git worktree instead of racing writes on your working tree. Integrate the worktrees afterward.
+
+**Staggered launch for rate-limited surfaces.** "All dispatches in one response" stays the default for small fan-outs. But for fan-outs that hit external / rate-limited surfaces (web, docs, context7/MCP), launch in small batches (2–3) across consecutive turns instead of all at once. Subagents run in the background, so the next batch overlaps the first — execution stays concurrent; only the initial simultaneous *request* burst drops. This matters most at the advanced tier (5–6 agents). On partial failure (e.g. server rate-limit `[1302]`), retry the failed surfaces **sequentially** — it is transient infrastructure, not a skill error.
 
 ### 5. Review and Integrate
 

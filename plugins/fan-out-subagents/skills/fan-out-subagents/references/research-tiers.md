@@ -92,3 +92,15 @@ Reconcile rules (these live with the fork, since the fork carries them out):
   pass on nothing to resolve. Match the tier to the actual breadth of the question.
 - **Lens, not location.** Never confine a surface agent to one source; state the goal and let
   it range.
+- **Staggered launch + sequential retry (advanced especially).** Fanning out 5–6 agents at
+  once can trip a server rate-limit (`[1302]`) on the simultaneous *request* burst — transient
+  infrastructure, not a skill error. For external / rate-limited surfaces (web, documentation,
+  context7/MCP), launch in small batches (2–3) across consecutive turns; subagents run in the
+  background, so batches overlap and execution stays concurrent while the initial burst drops.
+  On partial failure, retry the failed surfaces **sequentially**, not as another simultaneous
+  burst.
+- **Scope `context7` to its lane.** context7 serves version-pinned **library/framework** docs.
+  Include it in the bucket only when the topic is a library/framework with versioned docs; for
+  product / feature / tool-behavior topics it has little to offer — drop it and lean on
+  `documentation` + `web`. A moderate question of that kind is then 3 surfaces (repositories /
+  documentation / web), not 4.

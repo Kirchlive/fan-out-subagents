@@ -3,6 +3,26 @@
 All notable changes to this plugin are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.1] - 2026-06-30
+
+### Changed
+- Read-only workers (`Research`, `Debug-Explore`) now also disallow the `Agent` tool,
+  keeping them as clean leaves now that Claude Code v2.1.172+ lets subagents spawn
+  their own subagents (depth limit 5, fixed). Restricting spawning via `Agent(...)`
+  in `tools` is ignored at runtime — `disallowedTools: Agent` is the correct lever.
+
+### Added
+- Nesting note (v2.1.172+) in `SKILL.md`: orchestration stays in the main session
+  (flat fan-out); nesting is opt-in per surface, not the default.
+- Staggered-launch guidance: for external / rate-limited surfaces (web, docs,
+  context7/MCP), launch in batches of 2–3 across consecutive turns instead of one
+  simultaneous burst; retry failed surfaces sequentially. `[1302]` rate-limits are
+  transient infrastructure, not a skill error.
+- `context7` surface scoped to its lane: include it only for library/framework topics
+  with versioned docs; drop it for product/feature/tool-behavior topics.
+- README "Configuration notes": documents the `Agent()` allowlist gotcha
+  (ignored at runtime; enforced only via `claude --agent`).
+
 ## [1.0.0] - 2026-06-30
 
 ### Added

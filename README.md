@@ -85,6 +85,7 @@ When external research comes up, the skill reads `references/research-tiers.md` 
 - The `Research` agent runs on **Sonnet** and is **read-only** (`disallowedTools: Write, Edit`). Everything else is inherited on purpose, so your ambient stack (e.g. codebase-memory, context-mode, the context7 plugin) stays available to it. It deliberately does **not** pin tools or MCP servers.
 - The `Debug-Explore` agent runs on the **inherited main model** (`model: inherit`) and is **read-only**. It exists because `Explore` (Haiku) is too shallow for real debugging; it investigates and returns a diagnosis, and the fix is a separate `fork` dispatch.
 - If you want research workers to be able to write files (e.g. drop a findings file), add `Write` back — but note that loosens the read-only guarantee; the intended pattern is that code/file changes are a separate `fork` dispatch.
+- **Restricting what a worker may spawn:** an `Agent(typeA, typeB)` allowlist inside a subagent's `tools` field is ignored at runtime — it only enforces when an agent runs as the main thread via `claude --agent`. To stop a worker from spawning nested subagents (possible since Claude Code v2.1.172), use `disallowedTools: Agent` (as this plugin's workers do) or a `settings.json` permissions `deny`.
 
 ## Relationship to Superpowers
 
