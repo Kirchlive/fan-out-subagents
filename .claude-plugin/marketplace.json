@@ -1,0 +1,20 @@
+{
+  "name": "fan-out-subagents",
+  "owner": {
+    "name": "Kirchlive",
+    "url": "https://github.com/Kirchlive"
+  },
+  "metadata": {
+    "description": "Standalone plugin stack for deliberate parallel subagent dispatch in Claude Code.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "fan-out-subagents",
+      "source": "./plugins/fan-out-subagents",
+      "description": "Pick the right subagent type per task (fork for code, Explore for codebase, research for external), fan out concurrently, reconcile. Includes a tiered research workflow.",
+      "category": "productivity",
+      "homepage": "https://github.com/Kirchlive/fan-out-subagents"
+    }
+  ]
+}

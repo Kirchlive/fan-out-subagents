@@ -1,0 +1,21 @@
+{
+  "name": "fan-out-subagents",
+  "description": "Deliberate parallel subagent dispatch for Claude Code: pick the right subagent type per task (fork for code, Explore/Debug-Explore for codebase, Research for external), fan out concurrently, and reconcile. Includes a tiered research workflow.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Kirchlive",
+    "url": "https://github.com/Kirchlive"
+  },
+  "homepage": "https://github.com/Kirchlive/fan-out-subagents",
+  "repository": "https://github.com/Kirchlive/fan-out-subagents",
+  "license": "MIT",
+  "keywords": [
+    "subagents",
+    "parallel",
+    "fan-out",
+    "fork",
+    "research",
+    "orchestration",
+    "claude-code"
+  ]
+}
